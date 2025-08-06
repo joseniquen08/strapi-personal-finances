@@ -1,0 +1,48 @@
+{
+  "kind": "collectionType",
+  "collectionName": "payment_reminders",
+  "info": {
+    "singularName": "payment-reminder",
+    "pluralName": "payment-reminders",
+    "displayName": "Payment Reminder"
+  },
+  "options": {
+    "draftAndPublish": true
+  },
+  "pluginOptions": {},
+  "attributes": {
+    "reminderDate": {
+      "type": "string"
+    },
+    "dueDate": {
+      "type": "string"
+    },
+    "minimumAmount": {
+      "type": "decimal"
+    },
+    "currentBalance": {
+      "type": "decimal"
+    },
+    "paymentStatus": {
+      "type": "enumeration",
+      "enum": [
+        "pending",
+        "sent",
+        "dismissed",
+        "completed"
+      ]
+    },
+    "reminderType": {
+      "type": "string"
+    },
+    "message": {
+      "type": "text"
+    },
+    "account": {
+      "type": "relation",
+      "relation": "manyToOne",
+      "target": "api::account.account",
+      "inversedBy": "payment_reminders"
+    }
+  }
+}

@@ -1,0 +1,42 @@
+{
+  "kind": "collectionType",
+  "collectionName": "payment_configurations",
+  "info": {
+    "singularName": "payment-configuration",
+    "pluralName": "payment-configurations",
+    "displayName": "Payment Configuration"
+  },
+  "options": {
+    "draftAndPublish": true
+  },
+  "pluginOptions": {},
+  "attributes": {
+    "preferredPaymentAmount": {
+      "type": "decimal"
+    },
+    "paymentStrategy": {
+      "type": "enumeration",
+      "enum": [
+        "minimum",
+        "full",
+        "custom",
+        "percentage"
+      ]
+    },
+    "customPercentage": {
+      "type": "decimal"
+    },
+    "autoCalculateMinimum": {
+      "type": "boolean"
+    },
+    "includeInterestProjection": {
+      "type": "boolean"
+    },
+    "account": {
+      "type": "relation",
+      "relation": "manyToOne",
+      "target": "api::account.account",
+      "inversedBy": "payment_configurations"
+    }
+  }
+}

@@ -373,6 +373,236 @@ export interface AdminUser extends Struct.CollectionTypeSchema {
   };
 }
 
+export interface ApiAccountTypeAccountType extends Struct.CollectionTypeSchema {
+  collectionName: 'account_types';
+  info: {
+    displayName: 'Account Type';
+    pluralName: 'account-types';
+    singularName: 'account-type';
+  };
+  options: {
+    draftAndPublish: true;
+  };
+  attributes: {
+    accounts: Schema.Attribute.Relation<'oneToMany', 'api::account.account'>;
+    createdAt: Schema.Attribute.DateTime;
+    createdBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
+      Schema.Attribute.Private;
+    description: Schema.Attribute.String;
+    isAsset: Schema.Attribute.Boolean;
+    locale: Schema.Attribute.String & Schema.Attribute.Private;
+    localizations: Schema.Attribute.Relation<
+      'oneToMany',
+      'api::account-type.account-type'
+    > &
+      Schema.Attribute.Private;
+    name: Schema.Attribute.String;
+    publishedAt: Schema.Attribute.DateTime;
+    updatedAt: Schema.Attribute.DateTime;
+    updatedBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
+      Schema.Attribute.Private;
+  };
+}
+
+export interface ApiAccountAccount extends Struct.CollectionTypeSchema {
+  collectionName: 'accounts';
+  info: {
+    displayName: 'Account';
+    pluralName: 'accounts';
+    singularName: 'account';
+  };
+  options: {
+    draftAndPublish: true;
+  };
+  attributes: {
+    account_type: Schema.Attribute.Relation<
+      'manyToOne',
+      'api::account-type.account-type'
+    >;
+    accountNumber: Schema.Attribute.String;
+    annualInterestRate: Schema.Attribute.Decimal;
+    createdAt: Schema.Attribute.DateTime;
+    createdBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
+      Schema.Attribute.Private;
+    creditLimit: Schema.Attribute.Decimal;
+    currency: Schema.Attribute.String;
+    currentBalance: Schema.Attribute.Decimal;
+    cutoffDay: Schema.Attribute.Integer;
+    description: Schema.Attribute.String;
+    enableReminders: Schema.Attribute.Boolean;
+    isActive: Schema.Attribute.Boolean;
+    locale: Schema.Attribute.String & Schema.Attribute.Private;
+    localizations: Schema.Attribute.Relation<
+      'oneToMany',
+      'api::account.account'
+    > &
+      Schema.Attribute.Private;
+    maintenanceFee: Schema.Attribute.Decimal;
+    minimumPaymentAmount: Schema.Attribute.Decimal;
+    minimumPaymentRate: Schema.Attribute.Decimal;
+    name: Schema.Attribute.String;
+    payment_configurations: Schema.Attribute.Relation<
+      'oneToMany',
+      'api::payment-configuration.payment-configuration'
+    >;
+    payment_reminders: Schema.Attribute.Relation<
+      'oneToMany',
+      'api::payment-reminder.payment-reminder'
+    >;
+    paymentDueDay: Schema.Attribute.Integer;
+    payments: Schema.Attribute.Relation<'oneToMany', 'api::payment.payment'>;
+    profile: Schema.Attribute.Relation<'manyToOne', 'api::profile.profile'>;
+    publishedAt: Schema.Attribute.DateTime;
+    reminderDaysBefore: Schema.Attribute.Integer;
+    updatedAt: Schema.Attribute.DateTime;
+    updatedBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
+      Schema.Attribute.Private;
+  };
+}
+
+export interface ApiPaymentConfigurationPaymentConfiguration
+  extends Struct.CollectionTypeSchema {
+  collectionName: 'payment_configurations';
+  info: {
+    displayName: 'Payment Configuration';
+    pluralName: 'payment-configurations';
+    singularName: 'payment-configuration';
+  };
+  options: {
+    draftAndPublish: true;
+  };
+  attributes: {
+    account: Schema.Attribute.Relation<'manyToOne', 'api::account.account'>;
+    autoCalculateMinimum: Schema.Attribute.Boolean;
+    createdAt: Schema.Attribute.DateTime;
+    createdBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
+      Schema.Attribute.Private;
+    customPercentage: Schema.Attribute.Decimal;
+    includeInterestProjection: Schema.Attribute.Boolean;
+    locale: Schema.Attribute.String & Schema.Attribute.Private;
+    localizations: Schema.Attribute.Relation<
+      'oneToMany',
+      'api::payment-configuration.payment-configuration'
+    > &
+      Schema.Attribute.Private;
+    paymentStrategy: Schema.Attribute.Enumeration<
+      ['minimum', 'full', 'custom', 'percentage']
+    >;
+    preferredPaymentAmount: Schema.Attribute.Decimal;
+    publishedAt: Schema.Attribute.DateTime;
+    updatedAt: Schema.Attribute.DateTime;
+    updatedBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
+      Schema.Attribute.Private;
+  };
+}
+
+export interface ApiPaymentReminderPaymentReminder
+  extends Struct.CollectionTypeSchema {
+  collectionName: 'payment_reminders';
+  info: {
+    displayName: 'Payment Reminder';
+    pluralName: 'payment-reminders';
+    singularName: 'payment-reminder';
+  };
+  options: {
+    draftAndPublish: true;
+  };
+  attributes: {
+    account: Schema.Attribute.Relation<'manyToOne', 'api::account.account'>;
+    createdAt: Schema.Attribute.DateTime;
+    createdBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
+      Schema.Attribute.Private;
+    currentBalance: Schema.Attribute.Decimal;
+    dueDate: Schema.Attribute.String;
+    locale: Schema.Attribute.String & Schema.Attribute.Private;
+    localizations: Schema.Attribute.Relation<
+      'oneToMany',
+      'api::payment-reminder.payment-reminder'
+    > &
+      Schema.Attribute.Private;
+    message: Schema.Attribute.Text;
+    minimumAmount: Schema.Attribute.Decimal;
+    paymentStatus: Schema.Attribute.Enumeration<
+      ['pending', 'sent', 'dismissed', 'completed']
+    >;
+    publishedAt: Schema.Attribute.DateTime;
+    reminderDate: Schema.Attribute.String;
+    reminderType: Schema.Attribute.String;
+    updatedAt: Schema.Attribute.DateTime;
+    updatedBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
+      Schema.Attribute.Private;
+  };
+}
+
+export interface ApiPaymentPayment extends Struct.CollectionTypeSchema {
+  collectionName: 'payments';
+  info: {
+    displayName: 'Payment';
+    pluralName: 'payments';
+    singularName: 'payment';
+  };
+  options: {
+    draftAndPublish: true;
+  };
+  attributes: {
+    account: Schema.Attribute.Relation<'manyToOne', 'api::account.account'>;
+    amount: Schema.Attribute.Decimal;
+    createdAt: Schema.Attribute.DateTime;
+    createdBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
+      Schema.Attribute.Private;
+    dueDate: Schema.Attribute.String;
+    interestCharged: Schema.Attribute.Decimal;
+    isLate: Schema.Attribute.Boolean;
+    locale: Schema.Attribute.String & Schema.Attribute.Private;
+    localizations: Schema.Attribute.Relation<
+      'oneToMany',
+      'api::payment.payment'
+    > &
+      Schema.Attribute.Private;
+    notes: Schema.Attribute.Text;
+    paymentDate: Schema.Attribute.String;
+    paymentMethod: Schema.Attribute.String;
+    profile: Schema.Attribute.Relation<'manyToOne', 'api::profile.profile'>;
+    publishedAt: Schema.Attribute.DateTime;
+    updatedAt: Schema.Attribute.DateTime;
+    updatedBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
+      Schema.Attribute.Private;
+  };
+}
+
+export interface ApiProfileProfile extends Struct.CollectionTypeSchema {
+  collectionName: 'profiles';
+  info: {
+    displayName: 'Profile';
+    pluralName: 'profiles';
+    singularName: 'profile';
+  };
+  options: {
+    draftAndPublish: true;
+  };
+  attributes: {
+    accounts: Schema.Attribute.Relation<'oneToMany', 'api::account.account'>;
+    createdAt: Schema.Attribute.DateTime;
+    createdBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
+      Schema.Attribute.Private;
+    currency: Schema.Attribute.String;
+    email: Schema.Attribute.Email;
+    isActive: Schema.Attribute.Boolean;
+    locale: Schema.Attribute.String & Schema.Attribute.Private;
+    localizations: Schema.Attribute.Relation<
+      'oneToMany',
+      'api::profile.profile'
+    > &
+      Schema.Attribute.Private;
+    name: Schema.Attribute.String;
+    payments: Schema.Attribute.Relation<'oneToMany', 'api::payment.payment'>;
+    publishedAt: Schema.Attribute.DateTime;
+    updatedAt: Schema.Attribute.DateTime;
+    updatedBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
+      Schema.Attribute.Private;
+  };
+}
+
 export interface PluginContentReleasesRelease
   extends Struct.CollectionTypeSchema {
   collectionName: 'strapi_releases';
@@ -828,7 +1058,6 @@ export interface PluginUsersPermissionsUser
   };
   options: {
     draftAndPublish: false;
-    timestamps: true;
   };
   attributes: {
     blocked: Schema.Attribute.Boolean & Schema.Attribute.DefaultTo<false>;
@@ -882,6 +1111,12 @@ declare module '@strapi/strapi' {
       'admin::transfer-token': AdminTransferToken;
       'admin::transfer-token-permission': AdminTransferTokenPermission;
       'admin::user': AdminUser;
+      'api::account-type.account-type': ApiAccountTypeAccountType;
+      'api::account.account': ApiAccountAccount;
+      'api::payment-configuration.payment-configuration': ApiPaymentConfigurationPaymentConfiguration;
+      'api::payment-reminder.payment-reminder': ApiPaymentReminderPaymentReminder;
+      'api::payment.payment': ApiPaymentPayment;
+      'api::profile.profile': ApiProfileProfile;
       'plugin::content-releases.release': PluginContentReleasesRelease;
       'plugin::content-releases.release-action': PluginContentReleasesReleaseAction;
       'plugin::i18n.locale': PluginI18NLocale;

@@ -1,0 +1,90 @@
+{
+  "kind": "collectionType",
+  "collectionName": "accounts",
+  "info": {
+    "singularName": "account",
+    "pluralName": "accounts",
+    "displayName": "Account"
+  },
+  "options": {
+    "draftAndPublish": true
+  },
+  "pluginOptions": {},
+  "attributes": {
+    "name": {
+      "type": "string"
+    },
+    "accountNumber": {
+      "type": "string"
+    },
+    "currentBalance": {
+      "type": "decimal"
+    },
+    "currency": {
+      "type": "string"
+    },
+    "isActive": {
+      "type": "boolean"
+    },
+    "description": {
+      "type": "string"
+    },
+    "creditLimit": {
+      "type": "decimal"
+    },
+    "cutoffDay": {
+      "type": "integer"
+    },
+    "paymentDueDay": {
+      "type": "integer"
+    },
+    "minimumPaymentRate": {
+      "type": "decimal"
+    },
+    "minimumPaymentAmount": {
+      "type": "decimal"
+    },
+    "annualInterestRate": {
+      "type": "decimal"
+    },
+    "maintenanceFee": {
+      "type": "decimal"
+    },
+    "reminderDaysBefore": {
+      "type": "integer"
+    },
+    "enableReminders": {
+      "type": "boolean"
+    },
+    "account_type": {
+      "type": "relation",
+      "relation": "manyToOne",
+      "target": "api::account-type.account-type",
+      "inversedBy": "accounts"
+    },
+    "payments": {
+      "type": "relation",
+      "relation": "oneToMany",
+      "target": "api::payment.payment",
+      "mappedBy": "account"
+    },
+    "payment_reminders": {
+      "type": "relation",
+      "relation": "oneToMany",
+      "target": "api::payment-reminder.payment-reminder",
+      "mappedBy": "account"
+    },
+    "payment_configurations": {
+      "type": "relation",
+      "relation": "oneToMany",
+      "target": "api::payment-configuration.payment-configuration",
+      "mappedBy": "account"
+    },
+    "profile": {
+      "type": "relation",
+      "relation": "manyToOne",
+      "target": "api::profile.profile",
+      "inversedBy": "accounts"
+    }
+  }
+}
